@@ -1,0 +1,246 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <style>
+    .default-palette,
+    .palette0 {
+      color: currentColor;
+      --color0: #d80027;
+      --color1: #0052b4;
+      --color2: #f0f0f0;
+      --color3: #338af3;
+      --color4: #ffda44;
+      --color5: #85aa9f;
+      --color6: #fcfcfc;
+    }
+  </style>
+
+  <defs>
+    <!-- United Kingdom -->
+    <symbol id="united-kingdom-logo" viewBox="0 0 32 32" fill="none">
+      <g
+        fill="var(--color1, #0052b4)"
+        clip-path="url(#clip-united-kingdom)"
+      >
+        <path
+          fill="var(--color2, #f0f0f0)"
+          d="M16 32c8.8366 0 16-7.1634 16-16 0-8.8366-7.1634-16-16-16C7.1634 0 0 7.1634 0 16c0 8.8366 7.1634 16 16 16z"
+        />
+        <path
+          d="M3.3076 6.2589c-1.2568 1.6352-2.2045 3.5199-2.7563 5.5673h8.3236z"
+        />
+        <path
+          d="M31.449 11.8262c-0.5518-2.0473-1.4996-3.932-2.7563-5.5672l-5.5672 5.5672z"
+        />
+        <path
+          d="M0.5513 20.174c0.5518 2.0474 1.4995 3.9321 2.7563 5.5672l5.5671-5.5672z"
+        />
+        <path
+          d="M25.7413 3.3076c-1.6352-1.2568-3.5198-2.2045-5.5672-2.7564v8.3236z"
+        />
+        <path
+          d="M6.259 28.6924c1.6352 1.2568 3.5199 2.2045 5.5673 2.7564v-8.3235z"
+        />
+        <path
+          d="M11.8262 0.5512C9.7789 1.1031 7.8942 2.0508 6.259 3.3075l5.5672 5.5672z"
+        />
+        <path
+          d="M20.1741 31.4488c2.0473-0.5519 3.932-1.4996 5.5672-2.7563l-5.5672-5.5672z"
+        />
+        <path
+          d="M23.1255 20.174l5.5672 5.5673c1.2567-1.6352 2.2045-3.5199 2.7563-5.5673z"
+        />
+
+        <path
+          fill="var(--color0, #d80027)"
+          d="M31.8646 13.9131H18.0871h-1e-4V0.1354C17.4038 0.0465 16.7073 0 16 0c-0.7074 0-1.4038 0.0465-2.0869 0.1354v13.7775 1e-4H0.1354C0.0465 14.5962 0 15.2927 0 16c0 0.7074 0.0465 1.4038 0.1354 2.0869h13.7775 1e-4v13.7777C14.5962 31.9535 15.2926 32 16 32c0.7073 0 1.4038-0.0464 2.0869-0.1354V18.0871v-1e-4h13.7777C31.9535 17.4038 32 16.7074 32 16c0-0.7073-0.0465-1.4038-0.1354-2.0869z"
+        />
+        <path
+          fill="var(--color0, #d80027)"
+          d="M20.1738 20.174l7.1398 7.1398c0.3284-0.3283 0.6416-0.6715 0.9405-1.0272l-6.1126-6.1126h-1.9677z"
+        />
+        <path
+          fill="var(--color0, #d80027)"
+          d="M11.8261 20.174h-1e-4l-7.1397 7.1397c0.3282 0.3284 0.6714 0.6416 1.0272 0.9405l6.1126-6.1128z"
+        />
+        <path
+          fill="var(--color0, #d80027)"
+          d="M11.8261 11.8262v-1e-4L4.6864 4.6863C4.358 5.0145 4.0447 5.3577 3.7459 5.7135l6.1126 6.1127h1.9676z"
+        />
+        <path
+          fill="var(--color0, #d80027)"
+          d="M20.1738 11.8262l7.1398-7.1399c-0.3282-0.3284-0.6714-0.6416-1.0271-0.9405l-6.1127 6.1126z"
+        />
+      </g>
+
+      <clipPath id="clip-united-kingdom">
+        <rect width="32" height="32" fill="#fff" />
+      </clipPath>
+    </symbol>
+
+    <!-- Ukraine -->
+    <symbol id="ukraine-logo" viewBox="0 0 32 32" fill="none">
+      <g clip-path="url(#clip-ukraine)">
+        <path
+          fill="var(--color4, #ffda44)"
+          d="M16 32c8.8366 0 16-7.1634 16-16 0-8.8366-7.1634-16-16-16C7.1634 0 0 7.1634 0 16c0 8.8366 7.1634 16 16 16z"
+        />
+        <path
+          fill="var(--color3, #338af3)"
+          d="M0 16C0 7.1635 7.1635 0 16 0s16 7.1635 16 16"
+        />
+      </g>
+
+      <clipPath id="clip-ukraine">
+        <rect width="32" height="32" fill="#fff" />
+      </clipPath>
+    </symbol>
+
+    <!-- Trash -->
+    <symbol
+      id="trash-icon"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M7.5 2.5h5M8.3333 8.75v4.1667M11.6667 8.75v4.1667"
+        stroke-opacity="0.5"
+      />
+      <path
+        d="M2.5 5h15M15.8333 5l-.5844 8.7661c-.0877 1.3152-.1315 1.9728-.4156 2.4714-.25.439-.6273.7919-1.0819 1.0122C13.235 17.5 12.5759 17.5 11.2578 17.5H8.7422c-1.3181 0-1.9772 0-2.4936-.2503-.4546-.2203-.8319-.5732-1.082-1.0122-.2841-.4986-.328-1.1562-.4156-2.4714L4.1667 5"
+        stroke-opacity="0.5"
+      />
+    </symbol>
+
+    <!-- Search -->
+    <symbol
+      id="search"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M9.1667 15.8333c3.6819 0 6.6666-2.9847 6.6666-6.6666 0-3.6819-2.9847-6.6667-6.6666-6.6667C5.4848 2.5 2.5 5.4848 2.5 9.1667c0 3.6819 2.9848 6.6666 6.6667 6.6666z"
+      />
+      <path d="M17.5 17.5l-3.625-3.625" />
+    </symbol>
+
+    <!-- Plus -->
+    <symbol
+      id="plus"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="var(--color5, #85aa9f)"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M10 4.1667v11.6667" />
+      <path d="M4.1666 10h11.6667" />
+    </symbol>
+
+    <!-- Logo -->
+    <symbol id="logo" viewBox="0 0 40 40" fill="none">
+      <circle fill="var(--color5, #85aa9f)" cx="20" cy="20" r="20" />
+      <path
+        fill="var(--color6, #fcfcfc)"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M20.4431 19c5.944-4.483 6.2064-7.2 0-12-6.3247 4.9024-5.5095 7.501 0 12zM19 20.5569c-4.483-5.9439-7.2-6.2064-12 0 4.9024 6.3247 7.501 5.5095 12 0zM34 20.5569c-4.483-5.9439-7.2-6.2064-12 0 4.9024 6.3247 7.501 5.5095 12 0zM20.4431 34c5.944-4.483 6.2064-7.2 0-12-6.3247 4.9024-5.5095 7.501 0 12z"
+      />
+    </symbol>
+
+    <!-- Eye Off -->
+    <symbol id="eye-off" viewBox="0 0 20 20" fill="none">
+      <g
+        clip-path="url(#clip-eye-off)"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M14.95 14.95c-1.4245 1.0858-3.159 1.6874-4.95 1.7167C4.1667 16.6667.8334 10 .8334 10 1.87 8.0683 3.3077 6.3805 5.05 5.05M8.25 3.5333c.5737-.1342 1.1609-.2014 1.75-.2 5.8334 0 9.1667 6.6667 9.1667 6.6667-.5058.9463-1.1091 1.8373-1.8 2.6583M11.7667 11.7667c-.2289.2456-.5049.4426-.8115.5792-.3067.1367-.6377.2101-.9734.2161-.3357.0059-.6691-.0559-.9804-.1816-.3113-.1257-.5941-.3129-.8315-.5503-.2374-.2374-.4245-.5201-.5503-.8314-.1257-.3113-.1875-.6448-.1815-.9804.0059-.3357.0794-.6668.216-.9734.1366-.3067.3336-.5827.5793-.8116"
+        />
+        <path d="M.8334.8333 19.1667 19.1666" />
+      </g>
+
+      <clipPath id="clip-eye-off">
+        <rect width="20" height="20" fill="#fff" />
+      </clipPath>
+    </symbol>
+
+    <!-- Eye -->
+    <symbol id="eye" viewBox="0 0 20 20" fill="none">
+      <g
+        clip-path="url(#clip-eye)"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M.8334 10s3.3333-6.6667 9.1666-6.6667c5.8334 0 9.1667 6.6667 9.1667 6.6667S15.8334 16.6666 10 16.6666C4.1667 16.6666.8334 10 .8334 10z"
+        />
+        <path
+          d="M10 12.5c1.3807 0 2.5-1.1193 2.5-2.5 0-1.3807-1.1193-2.5-2.5-2.5-1.3807 0-2.5 1.1193-2.5 2.5 0 1.3807 1.1193 2.5 2.5 2.5z"
+        />
+      </g>
+
+      <clipPath id="clip-eye">
+        <rect width="20" height="20" fill="#fff" />
+      </clipPath>
+    </symbol>
+
+    <!-- Edit -->
+    <symbol id="edit-icon" viewBox="0 0 18 18" fill="none">
+      <path
+        stroke="currentColor"
+        stroke-opacity="0.5"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        d="M1.2133 14.1867c.0383-.3445.0574-.5168.1095-.6779.0463-.1428.1116-.2788.1943-.4042.0932-.1413.2158-.2638.4609-.509L12.9833 1.5904c.9204-.9205 2.4128-.9205 3.3333 0s.9205 2.4128 0 3.3333L5.3113 15.9289c-.2451.2452-.3677.3678-.509.461-.1254.0826-.2613.148-.4042.1942-.161.0522-.3333.0713-.6779.1096L.8999 17.007z"
+      />
+    </symbol>
+
+    <!-- Arrows -->
+    <symbol
+      id="arrows"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--color5, #85aa9f)"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M20 17H4M8 21l-4-4 4-4" />
+      <path d="M4 7h16M16 11l4-4-4-4" />
+    </symbol>
+
+    <!-- Arrow Right -->
+    <symbol id="arrow-right" viewBox="0 0 15 9" fill="none">
+      <path
+        stroke="var(--color5, #85aa9f)"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M.75 4.0833h13.3333M10.75 7.4167l3.3333-3.3334L10.75.75"
+      />
+    </symbol>
+
+    <!-- Arrow Down -->
+    <symbol id="arrow-down" viewBox="0 0 13 8" fill="currentColor">
+      <path
+        d="M6.25 7.125 0 .875.875 0 6.25 5.375 11.625 0l.875.875-6.25 6.25z"
+      />
+    </symbol>
+  </defs>
+</svg>
