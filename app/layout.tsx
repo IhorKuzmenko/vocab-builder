@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import Header from "@/components/Header/Header";
 
 const fixelDisplay = localFont({
   src: [
@@ -32,9 +31,12 @@ const fixelDisplay = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "VocabBuilder",
+  title: {
+    default: "VocabBuilder",
+    template: "%s | VocabBuilder",
+  },
   description:
-    "VocabBuilder is an application for learning and improving your English vocabulary.",
+    "VocabBuilder helps you expand your English vocabulary, learn new words and track your progress.",
 };
 
 export default function RootLayout({
@@ -44,10 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fixelDisplay.variable}>
-        <Header />
-        {children}
-      </body>
+      <body className={fixelDisplay.variable}>{children}</body>
     </html>
   );
 }

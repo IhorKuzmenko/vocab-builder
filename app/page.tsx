@@ -1,11 +1,14 @@
+import Header from "@/components/Header/Header";
+
 export default function Home() {
   return (
-    <main>
-      <div className="container">
-        <h1>VocabBuilder</h1>
-
-        <p>Learn new words, build your vocabulary and improve your English.</p>
-      </div>
-    </main>
+    <>
+      <Header />
+      <main>
+        <div className="container">
+          <h1>VocabBuilder</h1>
+        </div>
+      </main>
+    </>
   );
 }
