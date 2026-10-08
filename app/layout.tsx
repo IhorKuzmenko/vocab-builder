@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
+import Header from "@/components/Header/Header";
 
 const fixelDisplay = localFont({
   src: [
@@ -43,7 +44,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fixelDisplay.variable}>{children}</body>
+      <body className={fixelDisplay.variable}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

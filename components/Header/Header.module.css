@@ -1,0 +1,44 @@
+.header {
+  width: 100%;
+  background-color: var(--color-white);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 88px;
+}
+
+.loginLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 24px;
+  border-radius: 30px;
+
+  background-color: var(--color-green);
+  color: var(--color-white);
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  transition: background-color 250ms ease;
+}
+
+.loginLink:hover {
+  background-color: var(--color-green-light);
+}
+
+@media screen and (max-width: 767px) {
+  .inner {
+    min-height: 72px;
+  }
+
+  .loginLink {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
