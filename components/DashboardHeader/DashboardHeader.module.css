@@ -1,0 +1,347 @@
+.header {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  background-color: var(--color-white);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 88px;
+  gap: 24px;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  transition:
+    color 250ms ease,
+    background-color 250ms ease;
+}
+
+.navLink:hover {
+  color: var(--color-green);
+}
+
+.active,
+.active:hover {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userName {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--color-white);
+  background-color: var(--color-green);
+}
+
+.desktopLogout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.desktopLogout:hover {
+  color: var(--color-green);
+}
+
+.desktopLogout:disabled,
+.mobileLogout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.menuButton,
+.menuOverlay {
+  display: none;
+}
+
+.headerError {
+  padding: 8px 16px;
+  color: var(--color-red);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Tablet */
+
+@media screen and (max-width: 1023px) {
+  .inner {
+    min-height: 80px;
+  }
+
+  .desktopNav,
+  .desktopLogout {
+    display: none;
+  }
+
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+  }
+
+  .menuOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: block;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 20, 23, 0.35);
+  }
+
+  .mobileMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    max-width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: var(--color-green);
+    color: var(--color-white);
+  }
+
+  .menuTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 24px 24px 0;
+    flex-shrink: 0;
+  }
+
+  .menuUser {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .menuUserName {
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .avatarInverted {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-white);
+    color: var(--color-green);
+  }
+
+  .closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    color: var(--color-white);
+  }
+
+  .mobileNav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 160px;
+    padding: 0 24px;
+    flex-shrink: 0;
+  }
+
+  .mobileLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .mobileActive {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .mobileLogout {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .menuIllustration {
+    position: absolute;
+    right: -65px;
+    bottom: 0;
+    left: -65px;
+    height: 340px;
+    pointer-events: none;
+  }
+
+  .illustrationImage {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  .logoutError {
+    position: relative;
+    z-index: 2;
+    margin: 12px 24px;
+    color: var(--color-white);
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+
+@media screen and (max-width: 767px) {
+  .inner {
+    min-height: 72px;
+    gap: 12px;
+  }
+
+  .userArea {
+    gap: 8px;
+  }
+
+  .userName {
+    max-width: 90px;
+    font-size: 14px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatar svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mobileMenu {
+    width: 185px;
+  }
+
+  .menuTop {
+    gap: 8px;
+    padding: 20px 12px 0;
+  }
+
+  .menuUser {
+    gap: 8px;
+  }
+
+  .menuUserName {
+    font-size: 14px;
+  }
+
+  .avatarInverted {
+    width: 36px;
+    height: 36px;
+  }
+
+  .closeButton {
+    width: 28px;
+    height: 28px;
+  }
+
+  .closeButton svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .mobileNav {
+    gap: 8px;
+    margin-top: 145px;
+    padding: 0 12px;
+  }
+
+  .mobileLink {
+    min-height: 36px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .mobileLogout {
+    font-size: 14px;
+  }
+
+  .menuIllustration {
+    right: -100px;
+    left: -100px;
+    height: 260px;
+  }
+}
+
+/* Short screens */
+
+@media screen and (max-height: 650px) and (max-width: 1023px) {
+  .mobileNav {
+    margin-top: 60px;
+  }
+
+  .menuIllustration {
+    height: 210px;
+  }
+}
