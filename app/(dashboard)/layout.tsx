@@ -1,10 +1,10 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
-import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
-import { apiRequest } from '@/lib/api';
-import { getAuthToken } from '@/lib/auth-cookie';
+import DashboardHeader from "@/components/DashboardHeader/DashboardHeader";
+import { apiRequest } from "@/lib/api";
+import { getAuthToken } from "@/lib/auth-cookie";
 
-import type { CurrentUser } from '@/types/auth';
+import type { CurrentUser } from "@/types/auth";
 
 export default async function DashboardLayout({
   children,
@@ -14,19 +14,19 @@ export default async function DashboardLayout({
   const token = await getAuthToken();
 
   if (!token) {
-    redirect('/login');
+    redirect("/login");
   }
 
   let user: CurrentUser;
 
   try {
-    user = await apiRequest<CurrentUser>('/users/current', {
+    user = await apiRequest<CurrentUser>("/users/current", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
   } catch {
-    redirect('/login');
+    redirect("/login");
   }
 
   return (

@@ -1,0 +1,21 @@
+.main {
+  min-height: calc(100vh - 88px);
+  padding-top: 80px;
+  padding-bottom: 80px;
+  background-color: var(--color-background);
+}
+
+@media screen and (max-width: 1023px) {
+  .main {
+    min-height: calc(100vh - 80px);
+    padding-top: 60px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .main {
+    min-height: calc(100vh - 72px);
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+}

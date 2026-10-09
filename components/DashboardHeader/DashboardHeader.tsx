@@ -1,28 +1,27 @@
+"use client";
 
-'use client';
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-
-import Logo from '../Logo/Logo';
-import styles from './DashboardHeader.module.css';
+import Logo from "../Logo/Logo";
+import styles from "./DashboardHeader.module.css";
 
 type DashboardHeaderProps = {
   userName: string;
 };
 
 const navigation = [
-  { label: 'Dictionary', href: '/dictionary' },
-  { label: 'Recommend', href: '/recommend' },
-  { label: 'Training', href: '/training' },
+  { label: "Dictionary", href: "/dictionary" },
+  { label: "Recommend", href: "/recommend" },
+  { label: "Training", href: "/training" },
 ];
 
 function UserAvatar({ inverted = false }: { inverted?: boolean }) {
   return (
     <span
-      className={`${styles.avatar} ${inverted ? styles.avatarInverted : ''}`}
+      className={`${styles.avatar} ${inverted ? styles.avatarInverted : ""}`}
       aria-hidden="true"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -33,17 +32,15 @@ function UserAvatar({ inverted = false }: { inverted?: boolean }) {
   );
 }
 
-export default function DashboardHeader({
-  userName,
-}: DashboardHeaderProps) {
+export default function DashboardHeader({ userName }: DashboardHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const firstName = userName.trim().split(/\s+/)[0] || 'User';
+  const firstName = userName.trim().split(/\s+/)[0] || "User";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [logoutError, setLogoutError] = useState('');
+  const [logoutError, setLogoutError] = useState("");
 
   const menuRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -53,24 +50,26 @@ export default function DashboardHeader({
 
     const previousOverflow = document.body.style.overflow;
     const previousFocus = document.activeElement;
+    const menuButton = menuButtonRef.current;
 
-    document.body.style.overflow = 'hidden';
-    menuRef.current?.querySelector<HTMLButtonElement>(
-      '[aria-label="Close menu"]'
-    )?.focus();
+    document.body.style.overflow = "hidden";
+
+    menuRef.current
+      ?.querySelector<HTMLButtonElement>('[aria-label="Close menu"]')
+      ?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setIsMenuOpen(false);
         return;
       }
 
-      if (event.key !== 'Tab' || !menuRef.current) return;
+      if (event.key !== "Tab" || !menuRef.current) return;
 
       const focusable = Array.from(
         menuRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled])'
-        )
+          "a[href], button:not([disabled])",
+        ),
       );
 
       if (focusable.length === 0) return;
@@ -87,16 +86,16 @@ export default function DashboardHeader({
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
 
       if (previousFocus instanceof HTMLElement && previousFocus.isConnected) {
         previousFocus.focus();
       } else {
-        menuButtonRef.current?.focus();
+        menuButton?.focus();
       }
     };
   }, [isMenuOpen]);
@@ -105,22 +104,22 @@ export default function DashboardHeader({
     if (isLoggingOut) return;
 
     setIsLoggingOut(true);
-    setLogoutError('');
+    setLogoutError("");
 
     try {
-      const response = await fetch('/api/auth/signout', {
-        method: 'POST',
+      const response = await fetch("/api/auth/signout", {
+        method: "POST",
       });
 
       if (!response.ok) {
-        throw new Error('Unable to sign out.');
+        throw new Error("Unable to sign out.");
       }
 
       setIsMenuOpen(false);
-      router.replace('/login');
+      router.replace("/login");
       router.refresh();
     } catch {
-      setLogoutError('Unable to log out. Please try again.');
+      setLogoutError("Unable to log out. Please try again.");
     } finally {
       setIsLoggingOut(false);
     }
@@ -132,14 +131,14 @@ export default function DashboardHeader({
         <Logo />
 
         <nav className={styles.desktopNav} aria-label="Main navigation">
-          {navigation.map(item => (
+          {navigation.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={`${styles.navLink} ${
-                pathname === item.href ? styles.active : ''
+                pathname === item.href ? styles.active : ""
               }`}
-              aria-current={pathname === item.href ? 'page' : undefined}
+              aria-current={pathname === item.href ? "page" : undefined}
             >
               {item.label}
             </Link>
@@ -156,7 +155,7 @@ export default function DashboardHeader({
             onClick={handleLogout}
             disabled={isLoggingOut}
           >
-            {isLoggingOut ? 'Logging out...' : 'Log out'}
+            {isLoggingOut ? "Logging out..." : "Log out"}
             <span aria-hidden="true">→</span>
           </button>
 
@@ -223,14 +222,14 @@ export default function DashboardHeader({
             </div>
 
             <nav className={styles.mobileNav} aria-label="Mobile navigation">
-              {navigation.map(item => (
+              {navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`${styles.mobileLink} ${
-                    pathname === item.href ? styles.mobileActive : ''
+                    pathname === item.href ? styles.mobileActive : ""
                   }`}
-                  aria-current={pathname === item.href ? 'page' : undefined}
+                  aria-current={pathname === item.href ? "page" : undefined}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -243,7 +242,7 @@ export default function DashboardHeader({
                 onClick={handleLogout}
                 disabled={isLoggingOut}
               >
-                {isLoggingOut ? 'Logging out...' : 'Log out'}
+                {isLoggingOut ? "Logging out..." : "Log out"}
                 <span aria-hidden="true">→</span>
               </button>
             </nav>

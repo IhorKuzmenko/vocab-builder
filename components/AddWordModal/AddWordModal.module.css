@@ -1,0 +1,313 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(calc(100% - 32px), 455px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 30px;
+  background-color: #85aa9f;
+  color: #ffffff;
+  overflow-y: auto;
+}
+
+.dialog::backdrop {
+  background-color: rgba(18, 20, 23, 0.45);
+}
+
+.modal {
+  position: relative;
+  padding: 40px 46px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.title {
+  margin: 0 0 14px;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.description {
+  margin: 0 0 24px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.categorySection {
+  margin-bottom: 16px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 148px;
+  height: 36px;
+  margin-bottom: 8px;
+}
+
+.categorySelect {
+  width: 100%;
+  height: 100%;
+  padding: 0 36px 0 16px;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  outline: none;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.categorySelect option {
+  background-color: #ffffff;
+  color: #121417;
+}
+
+.selectWrapper > svg {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.verbTypes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 5px;
+  padding: 0;
+  border: none;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.radioLabel input {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.radioLabel input::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: scale(0);
+  transition: transform 150ms ease;
+}
+
+.radioLabel input:checked {
+  border-color: #ffffff;
+}
+
+.radioLabel input:checked::before {
+  transform: scale(1);
+}
+
+.hint {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.wordInput {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.wordInput::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.wordInput:focus,
+.categorySelect:focus {
+  border-color: #ffffff;
+}
+
+.languageLabel {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  width: 84px;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.languageLabel svg {
+  flex-shrink: 0;
+}
+
+.error {
+  margin: 0 0 12px;
+  color: #ffe3e3;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.submitButton,
+.cancelButton {
+  flex: 1;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitButton {
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  color: #121417;
+}
+
+.cancelButton {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #f8f8f8;
+}
+
+.cancelButton:hover:not(:disabled) {
+  border-color: #ffffff;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 767px) {
+  .dialog {
+    width: min(calc(100% - 32px), 455px);
+    border-radius: 20px;
+  }
+
+  .modal {
+    padding: 48px 24px 32px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .fieldRow {
+    gap: 10px;
+  }
+
+  .languageLabel {
+    width: 82px;
+    font-size: 11px;
+  }
+
+  .languageLabel svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .wordInput {
+    font-size: 12px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .modal {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .fieldRow {
+    gap: 8px;
+  }
+
+  .languageLabel {
+    width: 72px;
+    font-size: 10px;
+  }
+}

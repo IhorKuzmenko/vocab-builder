@@ -1,0 +1,266 @@
+.tableWrapper {
+  width: 100%;
+  padding: 18px;
+  border-radius: 15px;
+  background-color: #ffffff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  color: #121417;
+}
+
+.table th,
+.table td {
+  padding: 20px;
+  border-right: 1px solid rgba(18, 20, 23, 0.1);
+  border-bottom: 1px solid rgba(18, 20, 23, 0.1);
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.table th:last-child,
+.table td:last-child {
+  border-right: 0;
+}
+
+.table th {
+  height: 72px;
+  background-color: #f0f3f1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.table td {
+  height: 72px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.table th:nth-child(1),
+.table th:nth-child(2) {
+  width: 23%;
+}
+
+.table th:nth-child(3) {
+  width: 22%;
+}
+
+.table th:nth-child(4) {
+  width: 22%;
+}
+
+.table th:nth-child(5) {
+  width: 10%;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.heading svg {
+  flex-shrink: 0;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progressValue {
+  white-space: nowrap;
+}
+
+.actionsHeading {
+  text-align: center;
+}
+
+.actionsCell {
+  position: relative;
+  text-align: center !important;
+  overflow-wrap: normal !important;
+}
+
+.menuTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  color: #121417;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+  padding: 12px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 24px rgba(18, 20, 23, 0.1);
+}
+
+.dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  background: transparent;
+  color: #121417;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  color: #85aa9f;
+}
+
+.dropdown button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.emptyState {
+  padding: 64px 24px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.emptyState h2 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.emptyState p {
+  color: #777777;
+  font-size: 16px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Tablet */
+
+@media screen and (max-width: 1023px) {
+  .tableWrapper {
+    padding: 14px;
+  }
+
+  .table th,
+  .table td {
+    padding: 14px;
+  }
+
+  .table th {
+    font-size: 14px;
+  }
+
+  .table td {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+
+@media screen and (max-width: 767px) {
+  .tableWrapper {
+    padding: 12px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .categoryColumn {
+    display: none;
+  }
+
+  .table th:nth-child(1),
+  .table th:nth-child(2) {
+    width: 30%;
+  }
+
+  .table th:nth-child(4) {
+    width: 25%;
+  }
+
+  .table th:nth-child(5) {
+    width: 15%;
+  }
+
+  .heading svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .progress {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .progressValue {
+    display: none;
+  }
+
+  .menuTrigger {
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+  }
+
+  .dropdown {
+    right: 0;
+    min-width: 100px;
+    padding: 8px;
+  }
+
+  .dropdown button {
+    font-size: 12px;
+  }
+}

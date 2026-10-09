@@ -1,0 +1,27 @@
+.dictionary {
+  width: 100%;
+}
+
+.content {
+  margin-top: 32px;
+}
+
+.loading {
+  padding: 64px 24px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: #121417;
+  text-align: center;
+}
+
+.error {
+  margin-bottom: 16px;
+  color: #d93025;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .content {
+    margin-top: 24px;
+  }
+}

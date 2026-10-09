@@ -1,0 +1,21 @@
+.circle {
+  display: block;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.indicator {
+  fill: none;
+  stroke-width: 2;
+}
+
+.track {
+  stroke: #d4f8d3;
+}
+
+.indicator {
+  stroke: #3cbf61;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 250ms ease;
+}

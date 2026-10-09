@@ -1,15 +1,19 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+
+import DictionaryClient from "@/components/DictionaryClient/DictionaryClient";
+
+import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: 'Dictionary',
-  description: 'Manage and practice your English vocabulary.',
+  title: "Dictionary | VocabBuilder",
+  description: "Manage, search and practice your English vocabulary.",
 };
 
 export default function DictionaryPage() {
   return (
-    <main>
+    <main className={styles.main}>
       <div className="container">
-        <h1>Dictionary</h1>
+        <DictionaryClient />
       </div>
     </main>
   );
