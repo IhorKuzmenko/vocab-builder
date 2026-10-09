@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import Icon from "../Icon/Icon";
 import styles from "./AuthForm.module.css";
@@ -10,11 +11,20 @@ type AuthFormProps = {
   mode: "login" | "register";
 };
 
+type AuthResult = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
+
 export default function AuthForm({ mode }: AuthFormProps) {
+  const router = useRouter();
+
   const isRegister = mode === "register";
 
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const title = isRegister ? "Register" : "Login";
 
@@ -22,31 +32,65 @@ export default function AuthForm({ mode }: AuthFormProps) {
     ? "To start using our services, please fill out the registration form below. All fields are mandatory:"
     : "Please enter your login details to continue using our service:";
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (isLoading) return;
+
+    setError("");
+    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
 
-    const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
 
-    if (isRegister && !name) {
-      setMessage("Please enter your name.");
-      return;
-    }
+    const payload = isRegister
+      ? {
+          name: String(formData.get("name") ?? "").trim(),
+          email,
+          password,
+        }
+      : {
+          email,
+          password,
+        };
 
-    if (!email || !password) {
-      setMessage("Please fill in all required fields.");
-      return;
-    }
+    try {
+      const response = await fetch(
+        isRegister ? "/api/auth/signup" : "/api/auth/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
 
-    setMessage("Form is ready. API integration is the next step.");
-  };
+      const data = (await response.json()) as AuthResult;
+
+      if (!response.ok) {
+        throw new Error(data.message || "Authentication failed.");
+      }
+
+      router.replace("/dictionary");
+      router.refresh();
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <section className={styles.formSection}>
       <h1 className={styles.title}>{title}</h1>
+
       <p className={styles.description}>{description}</p>
 
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -58,7 +102,9 @@ export default function AuthForm({ mode }: AuthFormProps) {
             placeholder="Name"
             aria-label="Name"
             autoComplete="name"
+            minLength={2}
             required
+            disabled={isLoading}
           />
         )}
 
@@ -70,6 +116,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           aria-label="Email"
           autoComplete="email"
           required
+          disabled={isLoading}
         />
 
         <div className={styles.passwordField}>
@@ -81,6 +128,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
             aria-label="Password"
             autoComplete={isRegister ? "new-password" : "current-password"}
             required
+            disabled={isLoading}
           />
 
           <button
@@ -94,14 +142,18 @@ export default function AuthForm({ mode }: AuthFormProps) {
           </button>
         </div>
 
-        {message && (
-          <p className={styles.message} role="status">
-            {message}
+        {error && (
+          <p className={styles.error} role="alert">
+            {error}
           </p>
         )}
 
-        <button type="submit" className={styles.submitButton}>
-          {title}
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? "Please wait..." : title}
         </button>
       </form>
 
