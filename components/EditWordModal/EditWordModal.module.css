@@ -1,0 +1,205 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(calc(100% - 32px), 515px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 30px;
+  background-color: #85aa9f;
+  color: #ffffff;
+  overflow-y: auto;
+}
+
+.dialog::backdrop {
+  background-color: rgba(18, 20, 23, 0.45);
+}
+
+.modal {
+  position: relative;
+  padding: 52px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.wordInput {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.wordInput:focus {
+  border-color: #ffffff;
+}
+
+.languageLabel {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  width: 96px;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.languageLabel svg {
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.submitButton,
+.cancelButton {
+  flex: 1;
+  height: 46px;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitButton {
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  color: #121417;
+}
+
+.cancelButton {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #ffe3e3;
+  font-size: 13px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .dialog {
+    width: min(calc(100% - 32px), 343px);
+    border-radius: 15px;
+  }
+
+  .modal {
+    padding: 48px 12px 32px;
+  }
+
+  .form {
+    gap: 24px;
+  }
+
+  .fields {
+    gap: 16px;
+  }
+
+  .fieldRow {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .languageLabel {
+    width: 100%;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .languageLabel svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .wordInput {
+    flex: none;
+    width: 100%;
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .submitButton,
+  .cancelButton {
+    min-width: 0;
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .dialog {
+    width: calc(100% - 24px);
+  }
+
+  .modal {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}

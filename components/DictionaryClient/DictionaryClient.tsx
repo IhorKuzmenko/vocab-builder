@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import AddWordModal from "@/components/AddWordModal/AddWordModal";
+import EditWordModal from "@/components/EditWordModal/EditWordModal";
 import DictionaryToolbar from "@/components/DictionaryToolbar/DictionaryToolbar";
 import DictionaryTable from "@/components/DictionaryTable/DictionaryTable";
 import Pagination from "@/components/Pagination/Pagination";
@@ -26,12 +27,14 @@ const initialFilters: DictionaryFilters = {
 
 export default function DictionaryClient() {
   const [filters, setFilters] = useState<DictionaryFilters>(initialFilters);
+
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
 
   const [categories, setCategories] = useState<string[]>([]);
   const [totalToStudy, setTotalToStudy] = useState(0);
 
   const [words, setWords] = useState<Word[]>([]);
+
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -39,7 +42,10 @@ export default function DictionaryClient() {
   const [error, setError] = useState("");
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingWord, setEditingWord] = useState<Word | null>(null);
+
   const [refreshKey, setRefreshKey] = useState(0);
+  const [deletingWordId, setDeletingWordId] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -62,6 +68,7 @@ export default function DictionaryClient() {
         }
 
         const categoriesData: string[] = await categoriesResponse.json();
+
         const statisticsData: WordsStatistics = await statisticsResponse.json();
 
         setCategories(categoriesData);
@@ -110,12 +117,15 @@ export default function DictionaryClient() {
 
         const data: WordsResponse = await response.json();
 
+        if (controller.signal.aborted) return;
+
         setWords(data.results ?? []);
         setTotalPages(data.totalPages ?? 0);
       } catch (error) {
         if (controller.signal.aborted) return;
 
         console.error(error);
+
         setError("Unable to load words. Please try again.");
         setWords([]);
         setTotalPages(0);
@@ -164,6 +174,57 @@ export default function DictionaryClient() {
     void refreshStatistics();
   }
 
+  function handleWordUpdated() {
+    setEditingWord(null);
+    setRefreshKey((previous) => previous + 1);
+  }
+
+  async function handleDeleteWord(word: Word) {
+    if (deletingWordId) return;
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${word.en}"?`,
+    );
+
+    if (!confirmed) return;
+
+    setError("");
+    setDeletingWordId(word._id);
+
+    try {
+      const response = await fetch(
+        `/api/words/delete/${encodeURIComponent(word._id)}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        const data: { message?: string } = await response
+          .json()
+          .catch(() => ({}));
+
+        throw new Error(data.message || "Failed to delete word.");
+      }
+
+      setWords((previous) => previous.filter((item) => item._id !== word._id));
+
+      if (words.length === 1 && page > 1) {
+        setPage((previous) => previous - 1);
+      } else {
+        setRefreshKey((previous) => previous + 1);
+      }
+
+      void refreshStatistics();
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Unable to delete word.",
+      );
+    } finally {
+      setDeletingWordId(null);
+    }
+  }
+
   return (
     <div className={styles.dictionary}>
       <DictionaryToolbar
@@ -185,7 +246,11 @@ export default function DictionaryClient() {
           <p className={styles.loading}>Loading words...</p>
         ) : (
           <>
-            <DictionaryTable words={words} />
+            <DictionaryTable
+              words={words}
+              onEdit={(word) => setEditingWord(word)}
+              onDelete={handleDeleteWord}
+            />
 
             <Pagination
               page={page}
@@ -201,6 +266,14 @@ export default function DictionaryClient() {
           categories={categories}
           onClose={() => setIsAddModalOpen(false)}
           onSuccess={handleWordCreated}
+        />
+      )}
+
+      {editingWord && (
+        <EditWordModal
+          word={editingWord}
+          onClose={() => setEditingWord(null)}
+          onSuccess={handleWordUpdated}
         />
       )}
     </div>

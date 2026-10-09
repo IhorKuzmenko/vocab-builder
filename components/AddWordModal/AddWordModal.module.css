@@ -255,59 +255,140 @@
   cursor: not-allowed;
 }
 
+/* Add Word Modal — Mobile */
+
 @media screen and (max-width: 767px) {
   .dialog {
-    width: min(calc(100% - 32px), 455px);
-    border-radius: 20px;
+    width: calc(100% - 32px);
+    max-width: 343px;
+    max-height: calc(100dvh - 24px);
+    border-radius: 15px;
   }
 
   .modal {
-    padding: 48px 24px 32px;
+    padding: 48px 12px 32px;
+  }
+
+  .closeButton {
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    font-size: 26px;
   }
 
   .title {
+    margin-bottom: 16px;
     font-size: 24px;
+    font-weight: 600;
+    line-height: 1.17;
   }
 
   .description {
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .categorySection {
+    margin-bottom: 24px;
+  }
+
+  .selectWrapper {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 8px;
+  }
+
+  .categorySelect {
+    padding-left: 16px;
     font-size: 14px;
   }
 
-  .fieldRow {
-    gap: 10px;
+  .verbTypes {
+    gap: 16px;
+    margin-bottom: 0;
   }
 
-  .languageLabel {
-    width: 82px;
-    font-size: 11px;
-  }
-
-  .languageLabel svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .wordInput {
+  .radioLabel {
+    gap: 6px;
     font-size: 12px;
   }
 
-  .actions {
+  .radioLabel input {
+    width: 14px;
+    height: 14px;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .fields {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .fieldRow {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
     gap: 8px;
+  }
+
+  .languageLabel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .languageLabel svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .wordInput {
+    flex: none;
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .submitButton,
+  .cancelButton {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 8px;
+    font-size: 14px;
   }
 }
 
 @media screen and (max-width: 374px) {
+  .dialog {
+    width: calc(100% - 24px);
+  }
+
   .modal {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding: 44px 12px 24px;
   }
 
-  .fieldRow {
-    gap: 8px;
+  .description {
+    font-size: 13px;
   }
 
-  .languageLabel {
-    width: 72px;
-    font-size: 10px;
+  .fields {
+    gap: 14px;
   }
 }

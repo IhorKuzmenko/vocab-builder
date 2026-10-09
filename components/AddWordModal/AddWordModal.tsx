@@ -172,10 +172,12 @@ export default function AddWordModal({
                   </label>
                 </fieldset>
 
-                <p className={styles.hint}>
-                  Such data must be entered in the format I form-II form-III
-                  form.
-                </p>
+                {category === "verb" && isIrregular && (
+                  <p className={styles.hint}>
+                    Such data must be entered in the format I form-II form-III
+                    form.
+                  </p>
+                )}
               </>
             )}
           </div>
