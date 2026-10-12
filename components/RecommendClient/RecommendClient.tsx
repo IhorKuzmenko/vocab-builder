@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 
+import Pagination from "@/components/Pagination/Pagination";
 import RecommendTable from "@/components/RecommendTable/RecommendTable";
 
 import type { Word, WordsResponse, WordsStatistics } from "@/types/words";
@@ -40,7 +42,6 @@ export default function RecommendClient() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
 
   const [addingId, setAddingId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -60,15 +61,12 @@ export default function RecommendClient() {
         cache: "no-store",
       });
 
-      if (!response.ok) {
-        return;
-      }
+      if (!response.ok) return;
 
       const data: WordsStatistics = await response.json();
-
       setToStudy(data.totalCount);
     } catch {
-      // Statistics are not critical for displaying words.
+      // Statistics are optional for rendering the page.
     }
   }, []);
 
@@ -82,9 +80,7 @@ export default function RecommendClient() {
           signal: controller.signal,
         });
 
-        if (!response.ok) {
-          return;
-        }
+        if (!response.ok) return;
 
         const data: WordsStatistics = await response.json();
 
@@ -92,7 +88,7 @@ export default function RecommendClient() {
           setToStudy(data.totalCount);
         }
       } catch {
-        // Statistics are not critical for displaying words.
+        // Ignore statistics request errors.
       }
     }
 
@@ -124,27 +120,23 @@ export default function RecommendClient() {
 
       try {
         const response = await fetch(`/api/words/all?${params.toString()}`, {
-          signal: controller.signal,
           cache: "no-store",
+          signal: controller.signal,
         });
 
         if (!response.ok) {
-          throw new Error("Failed to load words");
+          throw new Error("Failed to load recommended words");
         }
 
         const data: WordsResponse = await response.json();
 
-        if (controller.signal.aborted) {
-          return;
-        }
+        if (controller.signal.aborted) return;
 
         setWords(data.results);
         setTotalPages(data.totalPages ?? 0);
         setError("");
       } catch (error) {
-        if (controller.signal.aborted) {
-          return;
-        }
+        if (controller.signal.aborted) return;
 
         setWords([]);
         setTotalPages(0);
@@ -168,7 +160,6 @@ export default function RecommendClient() {
     setCategory(value);
     setIsIrregular(false);
     setPage(1);
-    setMessage("");
     setLoading(true);
   }
 
@@ -189,12 +180,9 @@ export default function RecommendClient() {
   }
 
   async function handleAdd(word: Word) {
-    if (addingId) {
-      return;
-    }
+    if (addingId !== null) return;
 
     setAddingId(word._id);
-    setMessage("");
 
     try {
       const response = await fetch(
@@ -212,14 +200,16 @@ export default function RecommendClient() {
         throw new Error(data.message || "Failed to add word");
       }
 
-      setMessage(`"${word.en}" added to dictionary`);
+      toast.success(`"${word.en}" added to dictionary`);
 
       setLoading(true);
       setRefreshKey((current) => current + 1);
 
       await loadStatistics();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Failed to add word");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to add word",
+      );
     } finally {
       setAddingId(null);
     }
@@ -324,12 +314,6 @@ export default function RecommendClient() {
         </div>
       </div>
 
-      {message && (
-        <p role="status" className={styles.statusMessage}>
-          {message}
-        </p>
-      )}
-
       {loading ? (
         <p className={styles.statusMessage}>Loading recommended words...</p>
       ) : error ? (
@@ -339,69 +323,19 @@ export default function RecommendClient() {
       ) : (
         <RecommendTable
           words={words}
+          addingId={addingId}
           onAdd={(word) => {
             void handleAdd(word);
           }}
         />
       )}
 
-      {!loading && !error && totalPages > 0 && (
-        <nav className={styles.pagination} aria-label="Pagination">
-          <button
-            type="button"
-            disabled={page === 1}
-            onClick={() => handlePageChange(1)}
-            aria-label="First page"
-          >
-            «
-          </button>
-
-          <button
-            type="button"
-            disabled={page === 1}
-            onClick={() => handlePageChange(page - 1)}
-            aria-label="Previous page"
-          >
-            ‹
-          </button>
-
-          {Array.from({ length: totalPages }, (_, index) => index + 1)
-            .filter(
-              (pageNumber) =>
-                pageNumber === 1 ||
-                pageNumber === totalPages ||
-                Math.abs(pageNumber - page) <= 2,
-            )
-            .map((pageNumber) => (
-              <button
-                key={pageNumber}
-                type="button"
-                className={pageNumber === page ? styles.activePage : undefined}
-                onClick={() => handlePageChange(pageNumber)}
-                aria-current={pageNumber === page ? "page" : undefined}
-              >
-                {pageNumber}
-              </button>
-            ))}
-
-          <button
-            type="button"
-            disabled={page >= totalPages}
-            onClick={() => handlePageChange(page + 1)}
-            aria-label="Next page"
-          >
-            ›
-          </button>
-
-          <button
-            type="button"
-            disabled={page >= totalPages}
-            onClick={() => handlePageChange(totalPages)}
-            aria-label="Last page"
-          >
-            »
-          </button>
-        </nav>
+      {!loading && !error && (
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
     </section>
   );

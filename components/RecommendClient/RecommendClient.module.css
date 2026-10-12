@@ -168,40 +168,13 @@
   font-size: 20px;
 }
 
-/* Pagination */
+/* Status */
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.pagination button {
-  display: grid;
-  place-items: center;
-  min-width: 32px;
-  height: 32px;
-  padding: 0 6px;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--color-black);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.pagination .activePage {
-  border-color: var(--color-green);
-  background: var(--color-green);
-  color: var(--color-white);
+.statusMessage {
+  margin-bottom: 16px;
+  color: var(--color-black-50);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .visuallyHidden {
@@ -213,14 +186,7 @@
   white-space: nowrap;
 }
 
-.statusMessage {
-  margin-bottom: 16px;
-  color: var(--color-black-50);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* Tablet and smaller desktop */
+/* Tablet */
 
 @media screen and (max-width: 1439px) {
   .recommend {
@@ -274,15 +240,5 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
-  }
-
-  .pagination {
-    gap: 6px;
-    margin-top: 24px;
-  }
-
-  .pagination button {
-    min-width: 28px;
-    height: 28px;
   }
 }

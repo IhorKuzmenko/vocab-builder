@@ -4,10 +4,15 @@ import styles from "./RecommendTable.module.css";
 
 type RecommendTableProps = {
   words: Word[];
+  addingId: string | null;
   onAdd: (word: Word) => void;
 };
 
-export default function RecommendTable({ words, onAdd }: RecommendTableProps) {
+export default function RecommendTable({
+  words,
+  addingId,
+  onAdd,
+}: RecommendTableProps) {
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -40,30 +45,42 @@ export default function RecommendTable({ words, onAdd }: RecommendTableProps) {
         </thead>
 
         <tbody>
-          {words.map((word) => (
-            <tr key={word._id}>
-              <td>{word.en}</td>
-              <td>{word.ua}</td>
-              <td>
-                {word.category.charAt(0).toUpperCase() + word.category.slice(1)}
-              </td>
+          {words.map((word) => {
+            const isAdding = addingId === word._id;
 
-              <td className={styles.actionsCell}>
-                <button
-                  type="button"
-                  className={styles.addButton}
-                  onClick={() => onAdd(word)}
-                  aria-label={`Add ${word.en} to dictionary`}
-                >
-                  <span className={styles.addText}>Add to dictionary</span>
+            return (
+              <tr key={word._id}>
+                <td>{word.en}</td>
+                <td>{word.ua}</td>
+                <td>
+                  {word.category.charAt(0).toUpperCase() +
+                    word.category.slice(1)}
+                </td>
 
-                  <span className={styles.arrow} aria-hidden="true">
-                    →
-                  </span>
-                </button>
-              </td>
-            </tr>
-          ))}
+                <td className={styles.actionsCell}>
+                  <button
+                    type="button"
+                    className={styles.addButton}
+                    onClick={() => onAdd(word)}
+                    disabled={addingId !== null}
+                    aria-label={
+                      isAdding
+                        ? `Adding ${word.en}`
+                        : `Add ${word.en} to dictionary`
+                    }
+                  >
+                    <span className={styles.addText}>
+                      {isAdding ? "Adding..." : "Add to dictionary"}
+                    </span>
+
+                    <span className={styles.arrow} aria-hidden="true">
+                      {isAdding ? "…" : "→"}
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

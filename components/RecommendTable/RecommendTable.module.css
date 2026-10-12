@@ -1,8 +1,8 @@
 .tableWrapper {
   width: 100%;
-  padding: 12px;
+  padding: 18px;
   border-radius: 15px;
-  background: #fff;
+  background-color: var(--color-white);
   overflow-x: auto;
 }
 
@@ -10,7 +10,7 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  color: #121417;
+  color: var(--color-black);
   font-size: 14px;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .table thead {
-  background: #f2f5f3;
+  background-color: #f2f5f3;
 }
 
 .table thead th {
@@ -94,19 +94,24 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #121417;
+  color: var(--color-black);
   font: inherit;
   font-size: 12px;
   white-space: nowrap;
   cursor: pointer;
 }
 
-.addButton:hover {
-  color: #85aa9f;
+.addButton:hover:not(:disabled) {
+  color: var(--color-green);
+}
+
+.addButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .arrow {
-  color: #85aa9f;
+  color: var(--color-green);
   font-size: 20px;
   line-height: 1;
 }
@@ -114,7 +119,7 @@
 .emptyState {
   padding: 28px 12px;
   text-align: center;
-  color: #12141780;
+  color: var(--color-black-50);
   font-size: 14px;
 }
 

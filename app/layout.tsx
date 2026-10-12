@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -46,7 +47,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fixelDisplay.variable}>{children}</body>
+      <body className={fixelDisplay.variable}>
+        {children}
+        <Toaster position="top-right" richColors />
+      </body>
     </html>
   );
 }
