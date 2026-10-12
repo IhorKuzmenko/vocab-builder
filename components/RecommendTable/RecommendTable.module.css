@@ -1,0 +1,183 @@
+.tableWrapper {
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  background: #fff;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #121417;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 16px;
+  border-right: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.table th:last-child,
+.table td:last-child {
+  border-right: none;
+}
+
+.table thead {
+  background: #f2f5f3;
+}
+
+.table thead th {
+  height: 48px;
+  font-weight: 500;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.table tbody td {
+  height: 50px;
+}
+
+.table th:nth-child(1) {
+  width: 31%;
+}
+
+.table th:nth-child(2) {
+  width: 30%;
+}
+
+.table th:nth-child(3) {
+  width: 22%;
+}
+
+.table th:nth-child(4) {
+  width: 17%;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.heading svg {
+  flex-shrink: 0;
+}
+
+.actionsHeading {
+  font-size: 0;
+}
+
+.actionsCell {
+  padding-right: 8px !important;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #121417;
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  color: #85aa9f;
+}
+
+.arrow {
+  color: #85aa9f;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.emptyState {
+  padding: 28px 12px;
+  text-align: center;
+  color: #12141780;
+  font-size: 14px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .tableWrapper {
+    padding: 12px;
+  }
+
+  .table {
+    font-size: 12px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px;
+  }
+
+  .table th:nth-child(1) {
+    width: 28%;
+  }
+
+  .table th:nth-child(2) {
+    width: 29%;
+  }
+
+  .table th:nth-child(3) {
+    width: 25%;
+  }
+
+  .table th:nth-child(4) {
+    width: 18%;
+  }
+
+  .table thead th {
+    height: 40px;
+  }
+
+  .table tbody td {
+    height: 48px;
+  }
+
+  .heading svg {
+    display: none;
+  }
+
+  .addText {
+    display: none;
+  }
+
+  .addButton {
+    justify-content: center;
+  }
+
+  .arrow {
+    font-size: 20px;
+  }
+}
