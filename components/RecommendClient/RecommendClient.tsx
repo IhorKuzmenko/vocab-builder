@@ -1,19 +1,15 @@
-
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
 import RecommendTable from "@/components/RecommendTable/RecommendTable";
+
+import type { Word, WordsResponse, WordsStatistics } from "@/types/words";
+
 import styles from "./RecommendClient.module.css";
 
-type RecommendedWord = {
-  _id: string;
-  en: string;
-  ua: string;
-  category: string;
-  isIrregular?: boolean;
-};
+const PAGE_SIZE = 7;
 
 const categories = [
   "verb",
@@ -29,90 +25,204 @@ const categories = [
   "functional phrase",
 ];
 
-const demoWords: RecommendedWord[] = [
-  {
-    _id: "1",
-    en: "Able",
-    ua: "Здібний",
-    category: "pronoun",
-  },
-  {
-    _id: "2",
-    en: "Absolutely",
-    ua: "Абсолютно",
-    category: "adverb",
-  },
-  {
-    _id: "3",
-    en: "Swim, swam, swum",
-    ua: "Плавати",
-    category: "participle",
-  },
-  {
-    _id: "4",
-    en: "Think, thought, thought",
-    ua: "Думати",
-    category: "participle",
-  },
-  {
-    _id: "5",
-    en: "Come apart",
-    ua: "Роз'єднувати",
-    category: "phrasal verb",
-  },
-  {
-    _id: "6",
-    en: "Go back",
-    ua: "Повертатися",
-    category: "phrasal verb",
-  },
-  {
-    _id: "7",
-    en: "Develop",
-    ua: "Розвиватися",
-    category: "verb",
-    isIrregular: false,
-  },
-];
-
-const PAGE_SIZE = 7;
-
 export default function RecommendClient() {
   const [keyword, setKeyword] = useState("");
+  const [debouncedKeyword, setDebouncedKeyword] = useState("");
+
   const [category, setCategory] = useState("");
   const [isIrregular, setIsIrregular] = useState(false);
+
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [words, setWords] = useState<Word[]>([]);
 
-  const filteredWords = useMemo(() => {
-    const normalizedKeyword = keyword.trim().toLowerCase();
+  const [toStudy, setToStudy] = useState<number | null>(null);
 
-    return demoWords.filter((word) => {
-      const matchesKeyword =
-        word.en.toLowerCase().includes(normalizedKeyword) ||
-        word.ua.toLowerCase().includes(normalizedKeyword);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-      const matchesCategory =
-        !category || word.category === category;
+  const [addingId, setAddingId] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-      const matchesVerbType =
-        category !== "verb" ||
-        word.isIrregular === isIrregular;
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedKeyword(keyword.trim());
+      setPage(1);
+    }, 350);
 
-      return matchesKeyword && matchesCategory && matchesVerbType;
-    });
-  }, [keyword, category, isIrregular]);
+    return () => clearTimeout(timeout);
+  }, [keyword]);
 
-  const totalPages = Math.ceil(filteredWords.length / PAGE_SIZE);
+  const loadStatistics = useCallback(async () => {
+    try {
+      const response = await fetch("/api/words/statistics", {
+        cache: "no-store",
+      });
 
-  const visibleWords = filteredWords.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE,
-  );
+      if (!response.ok) {
+        return;
+      }
+
+      const data: WordsStatistics = await response.json();
+
+      setToStudy(data.totalCount);
+    } catch {
+      // Statistics are not critical for displaying words.
+    }
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchStatistics() {
+      try {
+        const response = await fetch("/api/words/statistics", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data: WordsStatistics = await response.json();
+
+        if (!controller.signal.aborted) {
+          setToStudy(data.totalCount);
+        }
+      } catch {
+        // Statistics are not critical for displaying words.
+      }
+    }
+
+    void fetchStatistics();
+
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadWords() {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: String(PAGE_SIZE),
+      });
+
+      if (debouncedKeyword) {
+        params.set("keyword", debouncedKeyword);
+      }
+
+      if (category) {
+        params.set("category", category);
+      }
+
+      if (category === "verb") {
+        params.set("isIrregular", String(isIrregular));
+      }
+
+      try {
+        const response = await fetch(`/api/words/all?${params.toString()}`, {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load words");
+        }
+
+        const data: WordsResponse = await response.json();
+
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setWords(data.results);
+        setTotalPages(data.totalPages ?? 0);
+        setError("");
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setWords([]);
+        setTotalPages(0);
+
+        setError(
+          error instanceof Error ? error.message : "Something went wrong",
+        );
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadWords();
+
+    return () => controller.abort();
+  }, [page, debouncedKeyword, category, isIrregular, refreshKey]);
 
   function handleCategoryChange(value: string) {
     setCategory(value);
     setIsIrregular(false);
     setPage(1);
+    setMessage("");
+    setLoading(true);
+  }
+
+  function handleKeywordChange(value: string) {
+    setKeyword(value);
+    setLoading(true);
+  }
+
+  function handleVerbTypeChange(value: boolean) {
+    setIsIrregular(value);
+    setPage(1);
+    setLoading(true);
+  }
+
+  function handlePageChange(value: number) {
+    setPage(value);
+    setLoading(true);
+  }
+
+  async function handleAdd(word: Word) {
+    if (addingId) {
+      return;
+    }
+
+    setAddingId(word._id);
+    setMessage("");
+
+    try {
+      const response = await fetch(
+        `/api/words/add/${encodeURIComponent(word._id)}`,
+        {
+          method: "POST",
+        },
+      );
+
+      if (!response.ok) {
+        const data: { message?: string } = await response
+          .json()
+          .catch(() => ({}));
+
+        throw new Error(data.message || "Failed to add word");
+      }
+
+      setMessage(`"${word.en}" added to dictionary`);
+
+      setLoading(true);
+      setRefreshKey((current) => current + 1);
+
+      await loadStatistics();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Failed to add word");
+    } finally {
+      setAddingId(null);
+    }
   }
 
   return (
@@ -123,15 +233,12 @@ export default function RecommendClient() {
             <input
               type="search"
               value={keyword}
-              onChange={(event) => {
-                setKeyword(event.target.value);
-                setPage(1);
-              }}
+              onChange={(event) => handleKeywordChange(event.target.value)}
               placeholder="Find the word"
               aria-label="Find the word"
             />
 
-            <svg width="20" height="20" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
               <circle
                 cx="8.5"
                 cy="8.5"
@@ -153,9 +260,7 @@ export default function RecommendClient() {
           <div className={styles.categoryField}>
             <select
               value={category}
-              onChange={(event) =>
-                handleCategoryChange(event.target.value)
-              }
+              onChange={(event) => handleCategoryChange(event.target.value)}
               aria-label="Word category"
             >
               <option value="">Categories</option>
@@ -167,12 +272,7 @@ export default function RecommendClient() {
               ))}
             </select>
 
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="m6 9 6 6 6-6"
                 fill="none"
@@ -186,19 +286,14 @@ export default function RecommendClient() {
 
           {category === "verb" && (
             <fieldset className={styles.verbTypes}>
-              <legend className={styles.visuallyHidden}>
-                Verb type
-              </legend>
+              <legend className={styles.visuallyHidden}>Verb type</legend>
 
               <label>
                 <input
                   type="radio"
                   name="recommend-verb-type"
                   checked={!isIrregular}
-                  onChange={() => {
-                    setIsIrregular(false);
-                    setPage(1);
-                  }}
+                  onChange={() => handleVerbTypeChange(false)}
                 />
                 <span>Regular</span>
               </label>
@@ -208,10 +303,7 @@ export default function RecommendClient() {
                   type="radio"
                   name="recommend-verb-type"
                   checked={isIrregular}
-                  onChange={() => {
-                    setIsIrregular(true);
-                    setPage(1);
-                  }}
+                  onChange={() => handleVerbTypeChange(true)}
                 />
                 <span>Irregular</span>
               </label>
@@ -222,7 +314,7 @@ export default function RecommendClient() {
         <div className={styles.study}>
           <div className={styles.studyCount}>
             <span>To study:</span>
-            <strong>20</strong>
+            <strong>{toStudy ?? "—"}</strong>
           </div>
 
           <Link href="/training" className={styles.trainLink}>
@@ -232,23 +324,33 @@ export default function RecommendClient() {
         </div>
       </div>
 
-      <RecommendTable
-        words={visibleWords}
-        onAdd={(word) => {
-          // Подключим API добавления на следующем этапе.
-          console.info("Add recommended word:", word);
-        }}
-      />
+      {message && (
+        <p role="status" className={styles.statusMessage}>
+          {message}
+        </p>
+      )}
 
-      {totalPages > 0 && (
-        <nav
-          className={styles.pagination}
-          aria-label="Pagination"
-        >
+      {loading ? (
+        <p className={styles.statusMessage}>Loading recommended words...</p>
+      ) : error ? (
+        <p role="alert" className={styles.statusMessage}>
+          {error}
+        </p>
+      ) : (
+        <RecommendTable
+          words={words}
+          onAdd={(word) => {
+            void handleAdd(word);
+          }}
+        />
+      )}
+
+      {!loading && !error && totalPages > 0 && (
+        <nav className={styles.pagination} aria-label="Pagination">
           <button
             type="button"
             disabled={page === 1}
-            onClick={() => setPage(1)}
+            onClick={() => handlePageChange(1)}
             aria-label="First page"
           >
             «
@@ -257,41 +359,35 @@ export default function RecommendClient() {
           <button
             type="button"
             disabled={page === 1}
-            onClick={() =>
-              setPage((current) => current - 1)
-            }
+            onClick={() => handlePageChange(page - 1)}
             aria-label="Previous page"
           >
             ‹
           </button>
 
-          {Array.from(
-            { length: totalPages },
-            (_, index) => index + 1,
-          ).map((pageNumber) => (
-            <button
-              key={pageNumber}
-              type="button"
-              className={
-                pageNumber === page
-                  ? styles.activePage
-                  : undefined
-              }
-              onClick={() => setPage(pageNumber)}
-              aria-current={
-                pageNumber === page ? "page" : undefined
-              }
-            >
-              {pageNumber}
-            </button>
-          ))}
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter(
+              (pageNumber) =>
+                pageNumber === 1 ||
+                pageNumber === totalPages ||
+                Math.abs(pageNumber - page) <= 2,
+            )
+            .map((pageNumber) => (
+              <button
+                key={pageNumber}
+                type="button"
+                className={pageNumber === page ? styles.activePage : undefined}
+                onClick={() => handlePageChange(pageNumber)}
+                aria-current={pageNumber === page ? "page" : undefined}
+              >
+                {pageNumber}
+              </button>
+            ))}
 
           <button
             type="button"
             disabled={page >= totalPages}
-            onClick={() =>
-              setPage((current) => current + 1)
-            }
+            onClick={() => handlePageChange(page + 1)}
             aria-label="Next page"
           >
             ›
@@ -300,7 +396,7 @@ export default function RecommendClient() {
           <button
             type="button"
             disabled={page >= totalPages}
-            onClick={() => setPage(totalPages)}
+            onClick={() => handlePageChange(totalPages)}
             aria-label="Last page"
           >
             »

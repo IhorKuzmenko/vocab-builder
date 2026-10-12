@@ -213,6 +213,13 @@
   white-space: nowrap;
 }
 
+.statusMessage {
+  margin-bottom: 16px;
+  color: var(--color-black-50);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* Tablet and smaller desktop */
 
 @media screen and (max-width: 1439px) {

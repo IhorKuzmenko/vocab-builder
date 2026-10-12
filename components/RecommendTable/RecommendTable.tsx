@@ -1,16 +1,10 @@
+import type { Word } from "@/types/words";
+
 import styles from "./RecommendTable.module.css";
 
-type RecommendedWord = {
-  _id: string;
-  en: string;
-  ua: string;
-  category: string;
-  isIrregular?: boolean;
-};
-
 type RecommendTableProps = {
-  words: RecommendedWord[];
-  onAdd: (word: RecommendedWord) => void;
+  words: Word[];
+  onAdd: (word: Word) => void;
 };
 
 export default function RecommendTable({ words, onAdd }: RecommendTableProps) {
