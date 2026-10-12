@@ -1,14 +1,6 @@
-import Header from "@/components/Header/Header";
+
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <Header />
-      <main>
-        <div className="container">
-          <h1>VocabBuilder</h1>
-        </div>
-      </main>
-    </>
-  );
+  redirect("/register");
 }
