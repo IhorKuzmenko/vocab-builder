@@ -1,0 +1,168 @@
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  min-height: 500px;
+}
+
+.illustration {
+  order: 2;
+  flex-shrink: 0;
+  width: 265px;
+}
+
+.illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.content {
+  width: 100%;
+  max-width: 520px;
+}
+
+.title {
+  margin: 0 0 24px;
+  color: var(--color-black);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-black);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 30px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--color-green);
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.primaryButton:hover {
+  background-color: var(--color-green-light);
+  border-color: var(--color-green-light);
+}
+
+.secondaryButton {
+  border: 1px solid var(--color-green);
+  background-color: transparent;
+  color: var(--color-green);
+}
+
+.secondaryButton:hover {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 3px;
+}
+
+/* Tablet */
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .empty {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    min-height: 600px;
+  }
+
+  .illustration {
+    order: 0;
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .content {
+    max-width: 520px;
+  }
+
+  .buttons {
+    margin-top: 32px;
+  }
+}
+
+/* Mobile */
+
+@media screen and (max-width: 767px) {
+  .empty {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    min-height: 0;
+    padding-top: 32px;
+  }
+
+  .illustration {
+    order: 0;
+    width: 144px;
+    margin: 0 auto;
+  }
+
+  .content {
+    max-width: none;
+  }
+
+  .title {
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .secondaryButton {
+    border: none;
+  }
+
+  .secondaryButton:hover {
+    background-color: transparent;
+    color: var(--color-green);
+  }
+}

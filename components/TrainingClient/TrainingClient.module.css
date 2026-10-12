@@ -1,0 +1,453 @@
+.training {
+  min-height: calc(100vh - 90px);
+  padding-top: 56px;
+  padding-bottom: 80px;
+  background-color: var(--color-background);
+}
+
+.status {
+  margin: 40px 0;
+  color: var(--color-black-50);
+  font-size: 16px;
+}
+
+/* Progress */
+
+.progressWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.progressCircle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.progressCircle span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--color-background);
+  color: var(--color-black);
+  font-size: 14px;
+}
+
+/* Exercise */
+
+.exercise {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 302px;
+  padding: 18px;
+  border-radius: 15px;
+  background-color: var(--color-white);
+}
+
+.answerPanel,
+.wordPanel {
+  position: relative;
+  min-width: 0;
+  padding: 22px 20px;
+  background-color: var(--color-off-white);
+}
+
+.answerPanel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e8e8e8;
+}
+
+.panelHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--color-black);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.language {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.language svg {
+  flex-shrink: 0;
+}
+
+.sourceWord {
+  overflow-wrap: break-word;
+}
+
+.answerInput {
+  width: 100%;
+  flex: 1;
+  min-height: 140px;
+  margin-top: 20px;
+  padding: 0;
+  resize: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--color-black);
+  font: inherit;
+  font-size: 16px;
+}
+
+.nextButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-black-50);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.nextButton span {
+  color: var(--color-green);
+  font-size: 20px;
+}
+
+.nextButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 30px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    opacity 200ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--color-green);
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.secondaryButton {
+  border: 1px solid var(--color-green);
+  background-color: transparent;
+  color: var(--color-green);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Empty state */
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  min-height: 500px;
+}
+
+.emptyIllustration {
+  order: 2;
+  flex-shrink: 0;
+  width: 265px;
+}
+
+.emptyIllustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.emptyContent {
+  max-width: 520px;
+}
+
+.emptyContent h1 {
+  margin: 0 0 24px;
+  color: var(--color-black);
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.emptyContent p {
+  margin: 0;
+  color: var(--color-black);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Results modal */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: var(--color-black-50);
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  padding: 40px;
+  overflow-y: auto;
+  border-radius: 20px;
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.modal h2 {
+  margin: 0 0 28px;
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-white);
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.resultColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.resultColumns h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.resultColumns p {
+  margin: 0 0 8px;
+  font-size: 16px;
+  overflow-wrap: break-word;
+}
+
+.bookIllustration {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.bookIllustration img {
+  display: block;
+  width: 160px;
+  height: auto;
+}
+
+/* Tablet */
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .training {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .empty {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    min-height: 600px;
+  }
+
+  .emptyIllustration {
+    order: 0;
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .emptyContent {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .emptyContent h1 {
+    margin-bottom: 24px;
+    font-size: 20px;
+  }
+
+  .emptyContent p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .empty .buttons {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .empty .primaryButton,
+  .empty .secondaryButton {
+    width: 180px;
+    min-width: 180px;
+  }
+}
+
+/* Mobile */
+
+@media screen and (max-width: 767px) {
+  .training {
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+
+  .progressWrapper {
+    margin-bottom: 20px;
+  }
+
+  .exercise {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .answerPanel,
+  .wordPanel {
+    padding: 20px 16px;
+  }
+
+  .answerPanel {
+    min-height: 220px;
+    border-right: none;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .wordPanel {
+    min-height: 180px;
+  }
+
+  .panelHeading {
+    font-size: 14px;
+  }
+
+  .language {
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .answerInput {
+    min-height: 90px;
+    font-size: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .secondaryButton {
+    border: none;
+  }
+
+  /* Empty state */
+
+  .empty {
+    flex-direction: column;
+    gap: 24px;
+    min-height: 0;
+    padding-top: 32px;
+  }
+
+  .emptyIllustration {
+    order: 0;
+    width: 144px;
+    margin: 0 auto;
+  }
+
+  .emptyContent {
+    width: 100%;
+  }
+
+  .emptyContent h1 {
+    font-size: 18px;
+  }
+
+  .emptyContent p {
+    font-size: 14px;
+  }
+
+  /* Modal */
+
+  .modal {
+    padding: 48px 20px 28px;
+  }
+
+  .modal h2 {
+    font-size: 26px;
+  }
+
+  .resultColumns {
+    gap: 16px;
+  }
+
+  .resultColumns p {
+    font-size: 14px;
+  }
+
+  .bookIllustration img {
+    width: 120px;
+  }
+}
