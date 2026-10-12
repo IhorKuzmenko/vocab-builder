@@ -11,33 +11,6 @@
   font-size: 16px;
 }
 
-/* Progress */
-
-.progressWrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
-
-.progressCircle {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-}
-
-.progressCircle span {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background-color: var(--color-background);
-  color: var(--color-black);
-  font-size: 14px;
-}
-
 /* Exercise */
 
 .exercise {
@@ -346,10 +319,6 @@
   .training {
     padding-top: 32px;
     padding-bottom: 40px;
-  }
-
-  .progressWrapper {
-    margin-bottom: 20px;
   }
 
   .exercise {

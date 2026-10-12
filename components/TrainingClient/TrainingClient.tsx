@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import TrainingEmpty from "@/components/TrainingEmpty/TrainingEmpty";
+import TrainingProgress from "@/components/TrainingProgress/TrainingProgress";
 
 import type {
   TrainingAnswer,
@@ -73,11 +74,50 @@ function isTrainingResult(
   );
 }
 
+function getErrorMessage(data: unknown, fallback: string): string {
+  if (typeof data === "object" && data !== null) {
+    const error = data as Record<string, unknown>;
+
+    if (typeof error.message === "string") {
+      return error.message;
+    }
+
+    if (typeof error.error === "string") {
+      return error.error;
+    }
+  }
+
+  return fallback;
+}
+
+function getUniqueWords(
+  results: TrainingAnswerResult[],
+  isCorrect: boolean,
+): string[] {
+  const uniqueWords = new Map<string, string>();
+
+  results
+    .filter((result) => result.isDone === isCorrect)
+    .forEach((result) => {
+      const word = result.en.trim();
+
+      if (!word) return;
+
+      const key = word.toLocaleLowerCase();
+
+      if (!uniqueWords.has(key)) {
+        uniqueWords.set(key, word);
+      }
+    });
+
+  return Array.from(uniqueWords.values());
+}
+
 export default function TrainingClient() {
   const router = useRouter();
 
   const [tasks, setTasks] = useState<TrainingTask[]>([]);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<number, string>>({});
   const [index, setIndex] = useState(0);
 
   const [loading, setLoading] = useState(true);
@@ -98,33 +138,33 @@ export default function TrainingClient() {
           signal: controller.signal,
         });
 
+        const data: unknown = await response.json();
+
         if (!response.ok) {
           throw new Error(
-            `Failed to load training tasks (${response.status})`,
+            getErrorMessage(data, "Failed to load training tasks"),
           );
         }
 
-        const data: unknown = await response.json();
         const parsedTasks = parseTrainingTasks(data);
 
         if (controller.signal.aborted) return;
 
         if (parsedTasks === null) {
-          setTasks([]);
-          setError("Unexpected training tasks response format");
-          return;
+          throw new Error("Unexpected training tasks response format");
         }
 
         setTasks(parsedTasks);
+        setAnswers({});
+        setIndex(0);
         setError("");
-      } catch (error) {
+      } catch (caughtError) {
         if (controller.signal.aborted) return;
 
         setTasks([]);
-
         setError(
-          error instanceof Error
-            ? error.message
+          caughtError instanceof Error
+            ? caughtError.message
             : "Something went wrong",
         );
       } finally {
@@ -140,10 +180,7 @@ export default function TrainingClient() {
   }, []);
 
   const currentTask = tasks[index];
-
-  const currentAnswer = currentTask
-    ? (answers[currentTask._id] ?? "")
-    : "";
+  const currentAnswer = answers[index] ?? "";
 
   const isEnglishAnswer = currentTask?.task === "en";
 
@@ -153,16 +190,14 @@ export default function TrainingClient() {
       : currentTask.en
     : "";
 
-  const progress = tasks.length
-    ? ((index + 1) / tasks.length) * 100
-    : 0;
+  const completedCount = Object.values(answers).filter(
+    (answer) => answer.trim().length > 0,
+  ).length;
 
   function handleAnswerChange(value: string) {
-    if (!currentTask) return;
-
     setAnswers((previous) => ({
       ...previous,
-      [currentTask._id]: value,
+      [index]: value,
     }));
   }
 
@@ -175,8 +210,17 @@ export default function TrainingClient() {
   async function handleSave() {
     if (saving || tasks.length === 0) return;
 
-    const payload: TrainingAnswer[] = tasks.map((task) => {
-      const answer = (answers[task._id] ?? "").trim();
+    const hasEmptyAnswers = tasks.some(
+      (_, taskIndex) => !(answers[taskIndex] ?? "").trim(),
+    );
+
+    if (hasEmptyAnswers) {
+      toast.error("Please complete all translations before saving");
+      return;
+    }
+
+    const payload: TrainingAnswer[] = tasks.map((task, taskIndex) => {
+      const answer = (answers[taskIndex] ?? "").trim();
 
       return {
         _id: task._id,
@@ -197,17 +241,16 @@ export default function TrainingClient() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        const data: { message?: string } = await response
-          .json()
-          .catch(() => ({}));
+      const data: unknown = await response.json().catch(() => null);
 
+      if (!response.ok) {
         throw new Error(
-          data.message || "Failed to save training",
+          getErrorMessage(
+            data,
+            `Failed to save training (${response.status})`,
+          ),
         );
       }
-
-      const data: unknown = await response.json();
 
       if (!Array.isArray(data) || !data.every(isTrainingResult)) {
         throw new Error("Unexpected training results format");
@@ -215,10 +258,10 @@ export default function TrainingClient() {
 
       setResults(data);
       toast.success("Training saved successfully");
-    } catch (error) {
+    } catch (caughtError) {
       toast.error(
-        error instanceof Error
-          ? error.message
+        caughtError instanceof Error
+          ? caughtError.message
           : "Failed to save training",
       );
     } finally {
@@ -258,21 +301,10 @@ export default function TrainingClient() {
 
   return (
     <section className={`container ${styles.training}`}>
-      <div className={styles.progressWrapper}>
-        <div
-          className={styles.progressCircle}
-          style={{
-            background: `conic-gradient(var(--color-green) ${progress}%, #e8e8e8 ${progress}%)`,
-          }}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={tasks.length}
-          aria-valuenow={index + 1}
-          aria-label="Training progress"
-        >
-          <span>{tasks.length - index}</span>
-        </div>
-      </div>
+      <TrainingProgress
+        current={completedCount}
+        total={tasks.length}
+      />
 
       <div className={styles.exercise}>
         <div className={styles.answerPanel}>
@@ -303,14 +335,14 @@ export default function TrainingClient() {
             onChange={(event) =>
               handleAnswerChange(event.target.value)
             }
-            aria-label="Your translation"
+            placeholder="Enter translation"
           />
 
           <button
             type="button"
             className={styles.nextButton}
             onClick={handleNext}
-            disabled={index === tasks.length - 1}
+            disabled={index === tasks.length - 1 || saving}
           >
             Next <span aria-hidden="true">→</span>
           </button>
@@ -382,25 +414,17 @@ export default function TrainingClient() {
               <div>
                 <h3>Correct answers:</h3>
 
-                {results
-                  .filter((result) => result.isDone)
-                  .map((result) => (
-                    <p key={result._id}>
-                      {result.en || result.ua}
-                    </p>
-                  ))}
+                {getUniqueWords(results, true).map((word) => (
+                  <p key={word.toLocaleLowerCase()}>{word}</p>
+                ))}
               </div>
 
               <div>
                 <h3>Mistakes:</h3>
 
-                {results
-                  .filter((result) => !result.isDone)
-                  .map((result) => (
-                    <p key={result._id}>
-                      {result.en || result.ua}
-                    </p>
-                  ))}
+                {getUniqueWords(results, false).map((word) => (
+                  <p key={word.toLocaleLowerCase()}>{word}</p>
+                ))}
               </div>
             </div>
 
