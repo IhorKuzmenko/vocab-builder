@@ -1,0 +1,136 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: var(--color-black-50);
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 4px;
+}
+
+.title {
+  margin: 0 0 28px;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.column {
+  min-width: 0;
+}
+
+.columnTitle {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+
+.wordList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wordList li {
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.illustration {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.illustration img {
+  display: block;
+  width: 160px;
+  height: auto;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .modal {
+    max-width: 520px;
+    padding: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .modal {
+    max-width: 343px;
+    padding: 48px 20px 28px;
+  }
+
+  .closeButton {
+    top: 16px;
+    right: 16px;
+  }
+
+  .title {
+    margin-bottom: 24px;
+    font-size: 26px;
+  }
+
+  .columns {
+    gap: 16px;
+  }
+
+  .columnTitle {
+    font-size: 12px;
+  }
+
+  .wordList li {
+    font-size: 14px;
+  }
+
+  .illustration img {
+    width: 120px;
+  }
+}

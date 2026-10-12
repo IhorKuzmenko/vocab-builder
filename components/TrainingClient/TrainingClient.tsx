@@ -1,13 +1,13 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import TrainingEmpty from "@/components/TrainingEmpty/TrainingEmpty";
 import TrainingProgress from "@/components/TrainingProgress/TrainingProgress";
+import TrainingResultModal from "@/components/TrainingResultModal/TrainingResultModal";
 
 import type {
   TrainingAnswer,
@@ -88,29 +88,6 @@ function getErrorMessage(data: unknown, fallback: string): string {
   }
 
   return fallback;
-}
-
-function getUniqueWords(
-  results: TrainingAnswerResult[],
-  isCorrect: boolean,
-): string[] {
-  const uniqueWords = new Map<string, string>();
-
-  results
-    .filter((result) => result.isDone === isCorrect)
-    .forEach((result) => {
-      const word = result.en.trim();
-
-      if (!word) return;
-
-      const key = word.toLocaleLowerCase();
-
-      if (!uniqueWords.has(key)) {
-        uniqueWords.set(key, word);
-      }
-    });
-
-  return Array.from(uniqueWords.values());
 }
 
 export default function TrainingClient() {
@@ -269,9 +246,9 @@ export default function TrainingClient() {
     }
   }
 
-  function handleCancel() {
+  const handleCancel = useCallback(() => {
     router.push("/dictionary");
-  }
+  }, [router]);
 
   if (loading) {
     return (
@@ -392,53 +369,10 @@ export default function TrainingClient() {
       </div>
 
       {results && (
-        <div className={styles.modalBackdrop}>
-          <div
-            className={styles.modal}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="training-results-title"
-          >
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={handleCancel}
-              aria-label="Close results"
-            >
-              ×
-            </button>
-
-            <h2 id="training-results-title">Well done</h2>
-
-            <div className={styles.resultColumns}>
-              <div>
-                <h3>Correct answers:</h3>
-
-                {getUniqueWords(results, true).map((word) => (
-                  <p key={word.toLocaleLowerCase()}>{word}</p>
-                ))}
-              </div>
-
-              <div>
-                <h3>Mistakes:</h3>
-
-                {getUniqueWords(results, false).map((word) => (
-                  <p key={word.toLocaleLowerCase()}>{word}</p>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.bookIllustration}>
-              <Image
-                src="/images/book@2x.png"
-                alt="Open book illustration"
-                width={160}
-                height={140}
-                sizes="(max-width: 767px) 120px, 160px"
-              />
-            </div>
-          </div>
-        </div>
+        <TrainingResultModal
+          results={results}
+          onClose={handleCancel}
+        />
       )}
     </section>
   );
