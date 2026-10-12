@@ -21,7 +21,9 @@
   border-bottom: 1px solid #e3e3e3;
   text-align: left;
   vertical-align: middle;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
 }
 
 .table th:last-child,
@@ -132,6 +134,8 @@
   white-space: nowrap;
 }
 
+/* Mobile */
+
 @media screen and (max-width: 767px) {
   .tableWrapper {
     padding: 12px;
@@ -143,23 +147,23 @@
 
   .table th,
   .table td {
-    padding: 12px;
+    padding: 12px 8px;
   }
 
   .table th:nth-child(1) {
-    width: 28%;
-  }
-
-  .table th:nth-child(2) {
     width: 29%;
   }
 
+  .table th:nth-child(2) {
+    width: 33%;
+  }
+
   .table th:nth-child(3) {
-    width: 25%;
+    width: 26%;
   }
 
   .table th:nth-child(4) {
-    width: 18%;
+    width: 12%;
   }
 
   .table thead th {
@@ -174,12 +178,17 @@
     display: none;
   }
 
+  .actionsCell {
+    padding: 8px 4px !important;
+  }
+
   .addText {
     display: none;
   }
 
   .addButton {
     justify-content: center;
+    min-height: 32px;
   }
 
   .arrow {
