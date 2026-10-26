@@ -1,54 +1,71 @@
 .dialog {
   position: fixed;
   inset: 0;
-  width: min(calc(100% - 32px), 515px);
+  width: calc(100% - 32px);
+  max-width: 628px;
   max-height: calc(100dvh - 32px);
   margin: auto;
   padding: 0;
+  overflow: auto;
   border: none;
   border-radius: 30px;
   background-color: #85aa9f;
   color: #ffffff;
-  overflow-y: auto;
 }
 
 .dialog::backdrop {
-  background-color: rgba(18, 20, 23, 0.45);
+  background-color: rgba(18, 20, 23, 0.5);
 }
 
 .modal {
   position: relative;
-  padding: 52px;
+  padding: 48px 64px;
 }
 
 .closeButton {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 24px;
+  right: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: none;
   background: transparent;
   color: #ffffff;
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1;
   cursor: pointer;
+}
+
+.closeButton:hover {
+  opacity: 0.7;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 0;
 }
 
 .fields {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .fieldRow {
@@ -58,17 +75,18 @@
 }
 
 .wordInput {
-  flex: 1;
+  width: 100%;
   min-width: 0;
-  height: 46px;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 12px;
+  height: 56px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
   outline: none;
   background: transparent;
   color: #ffffff;
-  font-family: inherit;
-  font-size: 14px;
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 250ms ease;
 }
 
 .wordInput:focus {
@@ -77,33 +95,185 @@
 
 .languageLabel {
   display: flex;
+  align-items: center;
   flex-shrink: 0;
+  gap: 8px;
+  width: 120px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.categorySection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.categoryLabel {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.categorySelect {
+  display: block;
+  width: 100%;
+  height: 48px;
+  padding: 0 40px 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  outline: none;
+  appearance: none;
+  background-color: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 250ms ease;
+}
+
+.categorySelect:hover,
+.categorySelect:focus-visible {
+  border-color: #ffffff;
+}
+
+.categorySelect option {
+  background-color: #ffffff;
+  color: #121417;
+}
+
+.categorySelect:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectWrapper > svg {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #ffffff;
+}
+
+/* Regular / Irregular */
+
+.verbTypes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  min-width: 0;
+  margin: 8px 0 0;
+  padding: 0;
+  border: none;
+}
+
+.radioLabel {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  width: 96px;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
   cursor: pointer;
 }
 
-.languageLabel svg {
+.radioLabel input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-content: center;
   flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  transition:
+    border-color 250ms ease,
+    background-color 250ms ease;
+}
+
+.radioLabel input[type="radio"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transform: scale(0);
+  transition: transform 200ms ease;
+}
+
+.radioLabel input[type="radio"]:checked {
+  border-color: #ffffff;
+}
+
+.radioLabel input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.radioLabel input[type="radio"]:hover {
+  border-color: #ffffff;
+}
+
+.radioLabel input[type="radio"]:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.hint {
+  max-width: 400px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.error {
+  margin-top: 16px;
+  color: #d80027;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 32px;
 }
 
 .submitButton,
 .cancelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  height: 46px;
+  min-height: 56px;
+  padding: 12px 20px;
   border-radius: 30px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    opacity 250ms ease;
 }
 
 .submitButton {
@@ -112,10 +282,18 @@
   color: #121417;
 }
 
+.submitButton:hover:not(:disabled) {
+  background-color: #f8f8f8;
+}
+
 .cancelButton {
   border: 1px solid rgba(255, 255, 255, 0.5);
-  background-color: transparent;
+  background: transparent;
   color: #ffffff;
+}
+
+.cancelButton:hover:not(:disabled) {
+  border-color: #ffffff;
 }
 
 .submitButton:disabled,
@@ -124,37 +302,23 @@
   cursor: not-allowed;
 }
 
-.error {
-  margin: 0;
-  color: #ffe3e3;
-  font-size: 13px;
-}
-
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-}
-
 @media screen and (max-width: 767px) {
   .dialog {
-    width: min(calc(100% - 32px), 343px);
-    border-radius: 15px;
+    width: calc(100% - 32px);
+    border-radius: 20px;
   }
 
   .modal {
-    padding: 48px 12px 32px;
+    padding: 56px 20px 32px;
   }
 
-  .form {
-    gap: 24px;
+  .closeButton {
+    top: 20px;
+    right: 20px;
   }
 
   .fields {
-    gap: 16px;
+    gap: 14px;
   }
 
   .fieldRow {
@@ -164,42 +328,46 @@
   }
 
   .languageLabel {
-    width: 100%;
-    gap: 8px;
-    font-size: 12px;
-  }
-
-  .languageLabel svg {
-    width: 24px;
-    height: 24px;
+    width: auto;
+    font-size: 14px;
   }
 
   .wordInput {
-    flex: none;
-    width: 100%;
-    height: 42px;
+    height: 52px;
+    font-size: 14px;
+  }
+
+  .categorySection {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .selectWrapper {
+    max-width: 100%;
+  }
+
+  .categorySelect {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .verbTypes {
+    gap: 20px;
+  }
+
+  .radioLabel {
     font-size: 14px;
   }
 
   .actions {
     gap: 8px;
+    margin-top: 28px;
   }
 
   .submitButton,
   .cancelButton {
-    min-width: 0;
-    height: 42px;
-    font-size: 13px;
-  }
-}
-
-@media screen and (max-width: 374px) {
-  .dialog {
-    width: calc(100% - 24px);
-  }
-
-  .modal {
-    padding-right: 12px;
-    padding-left: 12px;
+    min-height: 48px;
+    padding: 10px 12px;
+    font-size: 14px;
   }
 }
