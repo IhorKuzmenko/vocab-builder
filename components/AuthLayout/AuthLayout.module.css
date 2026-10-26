@@ -21,9 +21,11 @@
 .main {
   display: grid;
   grid-template-columns: minmax(0, 628px) minmax(0, 1fr);
+  align-content: start;
   align-items: center;
   column-gap: 32px;
   flex: 1;
+  padding-top: 60px;
 }
 
 .formContainer {
@@ -68,7 +70,7 @@
   .main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 80px;
     padding: 60px 0;
   }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -16,6 +17,11 @@ type AuthResult = {
   email?: string;
   message?: string;
 };
+
+const PASSWORD_REGEX = /^(?=(?:.*[A-Za-z]){6})(?=(?:.*\d){1})[A-Za-z\d]{7}$/;
+
+const PASSWORD_MESSAGE =
+  "The password must consist of 6 English letters and 1 number.";
 
 export default function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
@@ -38,12 +44,16 @@ export default function AuthForm({ mode }: AuthFormProps) {
     if (isLoading) return;
 
     setError("");
-    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
 
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
+
+    if (isRegister && !PASSWORD_REGEX.test(password)) {
+      setError(PASSWORD_MESSAGE);
+      return;
+    }
 
     const payload = isRegister
       ? {
@@ -55,6 +65,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
           email,
           password,
         };
+
+    setIsLoading(true);
 
     try {
       const response = await fetch(
@@ -76,10 +88,10 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
       router.replace("/dictionary");
       router.refresh();
-    } catch (error) {
+    } catch (caughtError) {
       setError(
-        error instanceof Error
-          ? error.message
+        caughtError instanceof Error
+          ? caughtError.message
           : "Something went wrong. Please try again.",
       );
     } finally {
@@ -126,17 +138,24 @@ export default function AuthForm({ mode }: AuthFormProps) {
             name="password"
             placeholder="Password"
             aria-label="Password"
-            autoComplete={isRegister ? "new-password" : "current-password"}
+            autoComplete={
+              isRegister ? "new-password" : "current-password"
+            }
             required
             disabled={isLoading}
+            onChange={() => setError("")}
           />
 
           <button
             type="button"
             className={styles.eyeButton}
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-label={
+              showPassword ? "Hide password" : "Show password"
+            }
             aria-pressed={showPassword}
-            onClick={() => setShowPassword((prev) => !prev)}
+            onClick={() =>
+              setShowPassword((previous) => !previous)
+            }
           >
             <Icon name={showPassword ? "eye" : "eye-off"} />
           </button>
